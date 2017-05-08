@@ -16,7 +16,7 @@ namespace nwmon
         public double Upload { get; set; }
         [Option('f', "force", DefaultValue = false, HelpText = "Force bypass sound notification when download/upload is exceed limit")]
         public bool Force { get; set; }
-        [Option('i', "interval", DefaultValue = 400, HelpText = "Refresh rate interval less value is more accurate but might affect system performance (recommended not to going below 100)")]
+        [Option('i', "interval", DefaultValue = 1000, HelpText = "Refresh rate interval less value is more likely to be accurate at usage per second measurement but may affect total usage measurement and system performance (IF YOU DON'T KNOW WHAT IS THIS ABOUT, DON'T MESS WITH IT)")]
         public int Interval { get; set; }
         [ParserState]
         public IParserState LastParserState { get; set; }

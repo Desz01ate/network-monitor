@@ -101,14 +101,14 @@ namespace nwmon
                 var ul = selectedAdapter.UploadSpeedKbps / 1024.0;
                 var dlMbps = dl * 8;
                 var ulMbps = ul * 8;
-                if ((dlMbps > dlLimit) | (ulMbps > ulLimit))
+                if ((dl > dlLimit) || (ul > ulLimit))
                 {
                     if (!bypass)
                     {
                         Console.Beep();
                     }
                     Console.ForegroundColor = ConsoleColor.Red;
-                    result = $"\r[SPEED EXCEEDING LIMIT] {adapterName} | Download : {string.Format("{0:0.00}", dl)} Mbps, Upload {string.Format("{0:0.00}", ul)} Mbps {Space(10)}";
+                    result = $"\r[SPEED EXCEEDING LIMIT] {adapterName} | Download : {string.Format("{0:0.00}", dlMbps)} Mbps, Upload {string.Format("{0:0.00}", ulMbps)} Mbps {Space(10)}";
                 }
                 else
                 {
@@ -144,9 +144,12 @@ namespace nwmon
             try
             {
                 var rootfile = $@"{Environment.GetEnvironmentVariable("SystemRoot")}\{AppDomain.CurrentDomain.FriendlyName}";
-                if (principal.IsInRole(WindowsBuiltInRole.Administrator) && !(System.IO.File.Exists(rootfile)))
+                if (!(System.IO.File.Exists(rootfile)))
                 {
-                    System.IO.File.Copy(AppDomain.CurrentDomain.FriendlyName, rootfile);
+                    if(principal.IsInRole(WindowsBuiltInRole.Administrator))
+                        System.IO.File.Copy(AppDomain.CurrentDomain.FriendlyName, rootfile);
+                    else
+                        throw new Exception();
                 }
             }
             catch (Exception)
